@@ -102,5 +102,16 @@ def draw_grid(win, rows, width):
             pygame.draw.line(win, CLRS['GREY'], (j * gap, 0), (j * gap, width))
 
 
+def draw(win, grid, rows, width):
+    win.fill(CLRS['WHITE'])
+
+    for row in grid:
+        for spot in row:
+            spot.draw(win)
+
+    draw_grid(win, rows, width)
+    pygame.display.update()
+
+
 if __name__ == '__main__':
     pygame.display.set_caption('A* Path Finding Algorithm')
