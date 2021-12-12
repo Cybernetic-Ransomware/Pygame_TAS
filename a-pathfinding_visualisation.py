@@ -1,5 +1,4 @@
 import pygame
-import math
 from queue import PriorityQueue
 
 WIDTH = 800
@@ -197,7 +196,6 @@ def main():
     end = None
 
     run = True
-    started = False
 
     while run:
         draw(WIN, grid, ROWS, WIDTH)
