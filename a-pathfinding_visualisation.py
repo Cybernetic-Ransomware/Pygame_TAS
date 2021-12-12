@@ -4,6 +4,7 @@ from queue import PriorityQueue
 
 WIDTH = 800
 HEIGHT = WIDTH
+ROWS = 50
 WIN = pygame.display.set_mode((WIDTH, HEIGHT))
 
 CLRS = {
@@ -50,7 +51,10 @@ class Spot:
         return self.color == CLRS['TURQUOISE']
 
     def reset(self):
-        return self.color == CLRS['WHITE']
+        self.color = CLRS['WHITE']
+
+    def make_start(self):
+        self.color = CLRS['ORANGE']
 
     def make_closed(self):
         self.color = CLRS['RED']
@@ -113,5 +117,61 @@ def draw(win, grid, rows, width):
     pygame.display.update()
 
 
+def get_clicked_pos(pos, rows, width):
+    gap = width // rows
+    y, x = pos
+
+    row = y // gap
+    col = x // gap
+
+    return row, col
+
+
+def main():
+    grid = make_grid(ROWS, WIDTH)
+
+    start = None
+    end = None
+
+    run = True
+    started = False
+
+    while run:
+        draw(WIN, grid, ROWS, WIDTH)
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                run = False
+            if started:
+                continue
+
+            if pygame.mouse.get_pressed()[0]:       # LPM
+                pos = pygame.mouse.get_pos()
+                row, col = get_clicked_pos(pos, ROWS, WIDTH)
+                spot = grid[row][col]
+                if not start and spot != end:
+                    start = spot
+                    start.make_start()
+                elif not end and spot != start:
+                    end = spot
+                    end.make_end()
+
+                elif spot not in (end, start):
+                    spot.make_barrier()
+
+            elif pygame.mouse.get_pressed()[2]:     # PPM
+                pos = pygame.mouse.get_pos()
+                row, col = get_clicked_pos(pos, ROWS, WIDTH)
+                spot = grid[row][col]
+                spot.reset()
+
+                if spot == start:
+                    start = None
+                elif spot == end:
+                    end = None
+
+    pygame.quit()
+
+
 if __name__ == '__main__':
     pygame.display.set_caption('A* Path Finding Algorithm')
+    main()
