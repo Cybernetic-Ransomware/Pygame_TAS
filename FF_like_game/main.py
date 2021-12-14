@@ -3,16 +3,21 @@ import pygame
 
 pygame.init()
 
-
+# SETUP
 SCREEN_WIDTH = 1124
 SCREEN_HEIGHT = SCREEN_WIDTH // (800/600)
 BOTTOM_PANEL = SCREEN_HEIGHT - 725           # 118px
+
+FPS = 75
+clock = pygame.time.Clock()
+
 
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 pygame.display.set_caption('Battle Time!')
 
 background_img = pygame.image.load('img/cyberpunk-gf755e0a93_1280.png').convert_alpha()
 panel_img = pygame.image.load('img/empty-blackboard.jpg').convert_alpha()
+
 
 hp_hearts = {
     'full': pygame.image.load('img/icons/heart-sketch.png').convert_alpha(),
@@ -49,6 +54,8 @@ if __name__ == '__main__':
     run = True
 
     while run:
+
+        clock.tick(FPS)
 
         draw_background()
         draw_panel()
