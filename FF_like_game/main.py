@@ -31,15 +31,22 @@ def draw_panel():
     screen.blit(panel_img, (INDENT, SCREEN_HEIGHT - BOTTOM_PANEL))
 
 
-def draw_hp():
-    pygame.draw.rect(screen, '#D5D9DC', (INDENT + 20, 780, 250, 50), border_radius=3)
+def draw_hp(enemy: bool, hp_value: float, max_hp: int):
+
+    # not sure if loading files by every frame isn't right for efficiency
     hp_hearts = {
         'full': pygame.image.load('img/icons/heart-sketch.png').convert_alpha(),
         'touched': pygame.image.load('img/icons/heart.png').convert_alpha(),
         'empty': pygame.image.load('img/icons/broken-heart.png').convert_alpha()
     }
-    positions = [x + INDENT for x in [26, 64, 102, 140]]
-    hp_value = 2.5
+
+    if enemy:
+        pygame.draw.rect(screen, '#D5D9DC', (SCREEN_WIDTH - 20 - INDENT - 250, 780, 250, 50), border_radius=3)
+        positions = [SCREEN_WIDTH - x - INDENT - 25 for x in [26, 64, 102, 140, 178, 216]][:max_hp]
+    else:
+        pygame.draw.rect(screen, '#D5D9DC', (INDENT + 20, 780, 250, 50), border_radius=3)
+        positions = [x + INDENT for x in [26, 64, 102, 140, 178, 216]][:max_hp]
+
     counter = 1
     for i in positions:
         if counter <= hp_value:
@@ -61,7 +68,8 @@ if __name__ == '__main__':
 
         draw_background()
         draw_panel()
-        draw_hp()
+        draw_hp(enemy=False, hp_value=3.5, max_hp=6)
+        draw_hp(enemy=True, hp_value=1.5, max_hp=3)
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
