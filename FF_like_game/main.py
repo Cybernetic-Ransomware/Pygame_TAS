@@ -67,9 +67,10 @@ class Character():
         self.start_med_packs = med_packs
         self.med_packs = med_packs
         self.alive = True
-        self.image = pygame.image\
+        img = pygame.image\
             .load(f'img/characters/{self.name}/idle/cultist_priest_idle_1.png')\
             .convert_alpha()
+        self.image = pygame.transform.scale(img, (img.get_width() * 1.5, img.get_height() * 1.5))
         self.rect = self.image.get_rect()
         self.rect.center = (x, y)
 
@@ -90,7 +91,7 @@ if __name__ == '__main__':
         draw_hp(enemy=False, hp_value=3.5, max_hp=6)
         draw_hp(enemy=True, hp_value=1.5, max_hp=3)
 
-        cultist = Character(200, 650, 'cultist', 4, 16, 3)
+        cultist = Character(200, 600, 'cultist', 4, 16, 3)
         cultist.draw()
 
         for event in pygame.event.get():
