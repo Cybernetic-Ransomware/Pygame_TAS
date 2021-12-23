@@ -31,7 +31,7 @@ def draw_panel():
     screen.blit(panel_img, (INDENT, SCREEN_HEIGHT - BOTTOM_PANEL))
 
 
-def draw_hp(enemy: bool, hp_value: float, max_hp: int):
+def draw_hp(enemy: bool, hp_value: float, max_hp: int, offset: int):
 
     # not sure if loading files by every frame isn't right for efficiency
     hp_hearts = {
@@ -41,20 +41,20 @@ def draw_hp(enemy: bool, hp_value: float, max_hp: int):
     }
 
     if enemy:
-        pygame.draw.rect(screen, '#D5D9DC', (SCREEN_WIDTH - 20 - INDENT - 250, 780, 250, 50), border_radius=3)
+        pygame.draw.rect(screen, '#D5D9DC', (SCREEN_WIDTH - 20 - INDENT - 250, 770 + offset, 250, 50), border_radius=3)
         positions = [SCREEN_WIDTH - x - INDENT - 25 for x in [26, 64, 102, 140, 178, 216]][:max_hp]
     else:
-        pygame.draw.rect(screen, '#D5D9DC', (INDENT + 20, 780, 250, 50), border_radius=3)
+        pygame.draw.rect(screen, '#D5D9DC', (INDENT + 20, 770 + offset, 250, 50), border_radius=3)
         positions = [x + INDENT for x in [26, 64, 102, 140, 178, 216]][:max_hp]
 
     counter = 1
     for i in positions:
         if counter <= hp_value:
-            screen.blit(hp_hearts['full'], (i, 792))
+            screen.blit(hp_hearts['full'], (i, 782 + offset))
         elif 1 > hp_value - counter + 1 > 0:
-            screen.blit(hp_hearts['touched'], (i, 792))
+            screen.blit(hp_hearts['touched'], (i, 782 + offset))
         else:
-            screen.blit(hp_hearts['empty'], (i, 792))
+            screen.blit(hp_hearts['empty'], (i, 782 + offset))
         counter += 1
 
 
@@ -97,8 +97,9 @@ if __name__ == '__main__':
 
         draw_background()
         draw_panel()
-        draw_hp(enemy=False, hp_value=3.5, max_hp=6)
-        draw_hp(enemy=True, hp_value=1.5, max_hp=3)
+        draw_hp(enemy=False, hp_value=3.5, max_hp=cultist.max_hp, offset=0)
+        draw_hp(enemy=True, hp_value=1.5, max_hp=ghost_01.max_hp, offset=0)
+        draw_hp(enemy=True, hp_value=2, max_hp=ghost_02.max_hp, offset=55)
 
         cultist.draw()
         ghost_01.draw()
