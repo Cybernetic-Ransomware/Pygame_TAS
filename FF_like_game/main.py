@@ -59,8 +59,8 @@ def draw_hp(enemy: bool, hp_value: float, max_hp: int):
 
 
 class Character():
-    def __init__(self, x, y, name, max_hp, strength, med_packs, reverse=False):
-        self.name = name
+    def __init__(self, x, y, sprite, max_hp, strength, med_packs, reverse=False):
+        self.sprite = sprite
         self.max_hp = max_hp
         self.hp = max_hp
         self.strength = strength
@@ -68,10 +68,11 @@ class Character():
         self.med_packs = med_packs
         self.alive = True
         img = pygame.image\
-            .load(f'img/characters/{self.name}/idle/cultist_priest_idle_1.png')\
+            .load(f'img/characters/{self.sprite}/idle/cultist_priest_idle_1.png')\
             .convert_alpha()
         img = pygame.transform.scale(img, (img.get_width() * 1.5, img.get_height() * 1.5))
         if reverse:
+            img.set_alpha(200)
             img = pygame.transform.flip(img, True, False)
         self.image = img
         self.rect = self.image.get_rect()
@@ -86,7 +87,9 @@ if __name__ == '__main__':
     run = True
 
     cultist = Character(200, 600, 'cultist', 4, 16, 3, reverse=False)
-    ghost_01 = Character(1000, 600, 'cultist', 4, 16, 3, reverse=True)
+    ghost_01 = Character(800, 600, 'cultist', 3, 8, 2, reverse=True)
+    ghost_02 = Character(1000, 600, 'cultist', 3, 10, 1, reverse=True)
+    enemy_list = [ghost_01, ghost_02]
 
     while run:
 
@@ -99,6 +102,7 @@ if __name__ == '__main__':
 
         cultist.draw()
         ghost_01.draw()
+        ghost_02.draw()
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
