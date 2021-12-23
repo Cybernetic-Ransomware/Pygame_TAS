@@ -58,6 +58,25 @@ def draw_hp(enemy: bool, hp_value: float, max_hp: int):
         counter += 1
 
 
+class Character():
+    def __init__(self, x, y, name, max_hp, strength, med_packs):
+        self.name = name
+        self.max_hp = max_hp
+        self.hp = max_hp
+        self.strength = strength
+        self.start_med_packs = med_packs
+        self.med_packs = med_packs
+        self.alive = True
+        self.image = pygame.image\
+            .load(f'img/characters/{self.name}/idle/cultist_priest_idle_1.png')\
+            .convert_alpha()
+        self.rect = self.image.get_rect()
+        self.rect.center = (x, y)
+
+    def draw(self):
+        screen.blit(self.image, self.rect)
+
+
 if __name__ == '__main__':
     pygame.display.set_caption('Battle Time!')
     run = True
@@ -70,6 +89,9 @@ if __name__ == '__main__':
         draw_panel()
         draw_hp(enemy=False, hp_value=3.5, max_hp=6)
         draw_hp(enemy=True, hp_value=1.5, max_hp=3)
+
+        cultist = Character(200, 650, 'cultist', 4, 16, 3)
+        cultist.draw()
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
