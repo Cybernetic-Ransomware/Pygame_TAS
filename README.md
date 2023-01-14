@@ -1,10 +1,18 @@
-# ON WORK
+# STILL ON WORK
 
-# Old style jRPG based on online tutorial by Coding With Russ.
-## On purpose to train coding with Pygames.
+---
 
+## Old style jRPG based on online tutorial by Coding With Russ.
+### On purpose to train coding with Pygames.
 
-##Special thanks:
+---
+
+#### Last migrated to Python 3.11
+#### Libraries requirements in requirements.txt file
+
+---
+
+### Special thanks to:
 - https://www.youtube.com/channel/UCPrRY0S-VzekrJK7I7F4-Mg
 - https://rili-xl.itch.io/cultist-priest-pack
 - https://pixabay.com/pl/users/jcx516-2412606/
