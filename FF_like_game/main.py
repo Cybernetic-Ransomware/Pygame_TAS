@@ -1,3 +1,5 @@
+import os
+
 import pygame
 import yaml
 
@@ -19,8 +21,10 @@ clock = pygame.time.Clock()
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 pygame.display.set_caption('Battle Time!')
 
-background_img = pygame.image.load('img/cyberpunk-gf755e0a93_1280.png').convert_alpha()
-panel_img = pygame.image.load('img/empty-blackboard.jpg').convert_alpha()
+background_img = pygame.image.load(os.path.join('img', 'cyberpunk-6061251_1920.jpg')).convert_alpha()
+background_img = pygame.transform.scale(background_img, (SCREEN_WIDTH - 2 * INDENT, SCREEN_HEIGHT - BOTTOM_PANEL))
+panel_img = pygame.image.load(os.path.join('img', 'empty-blackboard.jpg')).convert_alpha()
+panel_img = pygame.transform.scale(panel_img, (SCREEN_WIDTH - 2 * INDENT, BOTTOM_PANEL - 29))
 
 
 def draw_background():
@@ -33,11 +37,11 @@ def draw_panel():
 
 def draw_hp(enemy: bool, hp_value: float, max_hp: int, offset: int):
 
-    # not sure if loading files by every frame isn't right for efficiency
+    # not sure if loading files by every frame is right for efficiency
     hp_hearts = {
-        'full': pygame.image.load('img/icons/heart-sketch.png').convert_alpha(),
-        'touched': pygame.image.load('img/icons/heart.png').convert_alpha(),
-        'empty': pygame.image.load('img/icons/broken-heart.png').convert_alpha()
+        'full': pygame.image.load(os.path.join('img', 'icons/lover.png')).convert_alpha(),
+        'touched': pygame.image.load(os.path.join('img', 'icons/broken-heart.png')).convert_alpha(),
+        'empty': pygame.image.load(os.path.join('img', 'icons/heart.png')).convert_alpha()
     }
 
     if enemy:
@@ -50,15 +54,15 @@ def draw_hp(enemy: bool, hp_value: float, max_hp: int, offset: int):
     counter = 1
     for i in positions:
         if counter <= hp_value:
-            screen.blit(hp_hearts['full'], (i, 782 + offset))
+            screen.blit(hp_hearts['full'], (i, 777 + offset))
         elif 1 > hp_value - counter + 1 > 0:
-            screen.blit(hp_hearts['touched'], (i, 782 + offset))
+            screen.blit(hp_hearts['touched'], (i, 777 + offset))
         else:
-            screen.blit(hp_hearts['empty'], (i, 782 + offset))
+            screen.blit(hp_hearts['empty'], (i, 777 + offset))
         counter += 1
 
 
-class Character():
+class Character:
     def __init__(self, x, y, sprite, max_hp, strength, med_packs, reverse=False):
         self.sprite = sprite
         self.max_hp = max_hp
@@ -68,7 +72,7 @@ class Character():
         self.med_packs = med_packs
         self.alive = True
         img = pygame.image\
-            .load(f'img/characters/{self.sprite}/idle/cultist_priest_idle_1.png')\
+            .load(os.path.join('img', 'characters', f'{self.sprite}', 'idle', 'cultist_priest_idle_1.png'))\
             .convert_alpha()
         img = pygame.transform.scale(img, (img.get_width() * 1.5, img.get_height() * 1.5))
         if reverse:
